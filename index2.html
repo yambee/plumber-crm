@@ -10,16 +10,11 @@
 </head>
 <body id="demo">
 
-<!-- <ul>
-	<li v-for="item in j3 | disp">{{ item.Мастер}}</li>		
-</ul>
- -->
-
 <table class="table table-striped table-condensed table-hover table-bordered">
 	<thead>
 		<tr class="info">
 			<th><a href="#">Дата</a></th>
-			<th v-for="master in masters | orderBy 'master'"><a href="#">{{master}}</a></th>			
+			<th v-for="master in masters | orderBy 'master'"><a href="#">{{master}}</a></th>
 		</tr>
 	</thead>
 	<tbody>
