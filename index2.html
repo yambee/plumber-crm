@@ -162,14 +162,17 @@ new Vue ({
 		},
 
 	filters	: {
-		disp : function(arr, master) {
+		disp : function(obj, master) {
 			// console.log(this.m);
 			// console.log(this.m.length);
 			// var name = 'Алексей', name1 = 'Заявка';
 			// console.log(this.m[0][name][0][name1]);
 			// console.log(this.m[0].Алексей.length);
-			console.log(arr);
-			console.log(master);
+			var arr = JSON.stringify(obj);
+			console.log(arr);						
+			console.log(arr.length);
+			return obj[master];			
+
 		}
 	}
 	
