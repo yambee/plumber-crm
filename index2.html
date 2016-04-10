@@ -8,7 +8,7 @@
 	<!-- <link rel="stylesheet" href="jquery-ui.min.css"> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 </head>
-<body id="demo">
+<body id="demo" class="container">
 
 <table class="table table-striped table-condensed table-hover table-bordered">
 	<thead>
@@ -90,34 +90,54 @@ var vm = new Vue ({
 
 	methods : { 
 		initArrays : function() {
-			// считываем список мастеров из хэш-таблицы j3 (справочник)		
-			for (var i = 0, l = this.j3.length; i < l; i++) {this.masters.push(this.j3[i].Мастер)};		
 
+			var Line = {};
+			Line.Дата = '';
+
+			// считываем список мастеров из хэш-таблицы j3 (справочник)		
+			for (var i = 0, l = this.j3.length; i < l; i++) {
+					this.masters.push(this.j3[i].Мастер);
+					Line[this.j3[i].Мастер] = '';
+				};		
+			
+			console.log(Line);
 			// находим самую раннюю дату в таблице j1
 			// var iDate = moment("25 01 2016", "DD MM YYYY").locale('ru').format("DD-MMM-YYYY");
-			var iDate = "2016-01-25";
-			var Line = {};
-			Line.Дата = iDate;
 
-			for (var i = 0; i < this.masters.length; i++) {
-				var sum = 0;
-				// цикл по всей j1 в поисках такой же даты и такого же мастера
-				for (var j = 0; j < this.j1.length; j++) {
-					
-					var jDate = this.j1[j].Дата;
-					// console.log(jDate);
-					var jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
-					var jMaster = this.j1[j].Мастер;
-					var iMaster = this.masters[i];
-					var jSum = this.j1[j].Сумма;
+			var startDate = moment("2016-01-01").locale('ru').format("YYYY-MM-DD");
+			var endDate = moment("2016-04-10").locale('ru').format("YYYY-MM-DD");
 
-					if (jDate === iDate && jMaster === iMaster) {sum += Number(jSum)};
-					Line[iMaster] = sum;
-				};					
-				console.log(Line);
-				console.log(iDate, iMaster, jDate, jMaster);
+			// console.log(moment(startDate).add(1, 'days').locale('ru').format("YYYY-MM-DD"));
+
+			// var iDate = startDate;
+
+			for (var iDate = startDate; iDate < endDate; iDate = moment(iDate).add(1, 'days').locale('ru').format("YYYY-MM-DD") ){
+				// console.log("iDate: " + iDate, "endDate: " + endDate);
+				newLine = Object.create(Line);
+				// console.log(newLine);				
+				newLine.Дата = iDate;
+
+				for (var i = 0; i < this.masters.length; i++) {
+					var sum = 0;
+					// цикл по всей j1 в поисках такой же даты и такого же мастера
+					for (var j = 0; j < this.j1.length; j++) {
+						var jDate = this.j1[j].Дата;
+						// console.log(jDate);
+						var jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
+						var jMaster = this.j1[j].Мастер;
+						var iMaster = this.masters[i];
+						var jSum = this.j1[j].Сумма;
+
+						if (jDate === iDate && jMaster === iMaster) {sum += Number(jSum)};
+						newLine[iMaster] = sum;
+					};					
+					// console.log(newLine);
+					// console.log("iDate: " + iDate, iMaster, "jDate: " + jDate, jMaster);
+				}
+				this.m.push(newLine);
+				// console.log(this.m);				
 			}
-			this.m.push(Line);
+
 			// тут явно нужен какой-то констуктор класса объекта
 
 				// начинаем цикл по датам с этой даты до сегодня
