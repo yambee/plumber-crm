@@ -8,12 +8,50 @@
 	<!-- <link rel="stylesheet" href="jquery-ui.min.css"> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 </head>
-<body id="demo">
+<body id="demo" class="container">
 
-<ul v-for="item in j3">
-	<li>{{ $index }} {{ item.Мастер }}</li>		
+<!-- <ul>
+	<li v-for="item in j3 | disp">{{ item.Мастер}}</li>		
 </ul>
+ -->
 
+<table class="table table-striped table-condensed table-hover table-bordered">
+	<thead>
+		<tr class="info">
+			<th><a href="#">Дата</a></th>
+			<th><a href="#">Алексей</a></th>
+			<th><a href="#">Петр</a></th>
+			<th><a href="#">Самвел</a></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-for="item in m | disp">
+			<td>
+		<!-- 		<table class="table table-striped table-condensed table-hover table-bordered">
+					<thead>
+						<tr class="info">
+							<th><a href="#">Заявка</a></th>
+							<th><a href="#">Статус</a></th>
+							<th><a href="#">Сумма</a></th>							
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="zayavka in m">
+							<td>{{ item.Дата }}</td>
+							<td>{{ item.Алексей }}</td>
+							<td>{{ item.Петр }}</td>
+							<td>{{ item.Самвел }}</td>					
+						</tr>
+					</tbody>
+				</table> -->
+				{{ item.Дата }}
+			</td>
+			<td>{{ item.Алексей }}</td>
+			<td>{{ item.Петр }}</td>
+			<td>{{ item.Самвел }}</td>					
+		</tr>
+	</tbody>
+</table>
 
 <script src="moment-with-locales.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
@@ -30,7 +68,7 @@ new Vue ({
 	        'dataType': "json",
 	        'success': function (json) {
 	    	    dataJson = json;
-	    	    console.log(json);
+	    	    // console.log(json);
     		}
 	    	});
 	        return dataJson;        
@@ -45,7 +83,7 @@ new Vue ({
 	        'dataType': "json",
 	        'success': function (json) {
 	    	    dataJson = json;
-	    	    console.log(json);
+	    	    // console.log(json);
     		}
 	    	});
 	        return dataJson;
@@ -60,28 +98,82 @@ new Vue ({
 	        'dataType': "json",
 	        'success': function (json) {
 	    	    dataJson = json;
-	    	    console.log(json);
+	    	    // console.log(json);
     		}
 	    	});	    	
 	        return dataJson;
 		})(),
 
-		m2 : [],
+		m : [
+				{
+					"Дата" : "01.01.2015", 
+					"Алексей" : [
+						{
+							"Заявка" : "Марина 12121", 
+						 	"Статус" : "Выполнено",
+						 	"Сумма" : 2000
+						},
+						{	
+							"Заявка" : "Ольга цу3у321",
+							"Статус" : "Выполнено",
+							"Сумма" : 1000
+						}
+					],
+					"Петр" : [
+						{
+							"Заявка" : "Сантех кран 111111", 
+						 	"Статус" : "Выполнено",
+						 	"Сумма" : 3000
+						}
+					],
+					"Самвел" : [
+						{}
+					]
+				},
+				{
+					"Дата" : "02.01.2015", 
+					"Алексей" : [						
+						{	
+							"Заявка" : "Ольга цу3у321", 
+							"Статус" : "Выполнено",
+							"Сумма" : 1000
+						}
+					],
+					"Петр" : [
+						{}
+					],
+					"Самвел" : [
+						{
+							"Заявка" : "Марина 12121", 
+						 	"Статус" : "Выполнено",
+						 	"Сумма" : 2000
+						},
+						{	
+							"Заявка" : "Ольга цу3у321", 
+							"Статус" : "Выполнено",
+							"Сумма" : 1000
+						},
+						{	
+							"Заявка" : "Ольга цу3у321", 
+							"Статус" : "Выполнено",
+							"Сумма" : 1000
+						}
+					]
+				},
+			]
+		},
 
-		m1 : function () {
-			var m = [];
-			console.log(this);
-			for (var i = 0, l = this.j3.length; i < l; i++) { 
-				item = this.j3[i];
-				m[i] = item.Мастер 
-			};
-			console.log(m);
-			return m;
-		}()
+	filters	: {
+		disp : function() {
+			// console.log(this.m);
+			// console.log(this.m.length);
+			var name = 'Алексей', name1 = 'Заявка';
+			console.log(this.m[0][name][0][name1]);
+			console.log(this.m[0].Алексей.length);
+		}
 	}
 	
 })
-
 
 // console.log(Vue);
 Vue.config.devtools = true;
