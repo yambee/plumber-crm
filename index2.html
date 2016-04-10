@@ -8,7 +8,7 @@
 	<!-- <link rel="stylesheet" href="jquery-ui.min.css"> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 </head>
-<body id="demo" class="container">
+<body id="demo">
 
 <!-- <ul>
 	<li v-for="item in j3 | disp">{{ item.Мастер}}</li>		
@@ -19,15 +19,14 @@
 	<thead>
 		<tr class="info">
 			<th><a href="#">Дата</a></th>
-			<th><a href="#">Алексей</a></th>
-			<th><a href="#">Петр</a></th>
-			<th><a href="#">Самвел</a></th>
+			<th v-for="master in masters"><a href="#">{{master}}</a></th>			
 		</tr>
 	</thead>
 	<tbody>
-		<tr v-for="item in m | disp">
-			<td>
-		<!-- 		<table class="table table-striped table-condensed table-hover table-bordered">
+		<tr v-for="item in m">
+			<td>{{item.Дата}}</td>
+			<td v-for="master in masters">
+				<table class="table table-striped table-condensed table-hover table-bordered">
 					<thead>
 						<tr class="info">
 							<th><a href="#">Заявка</a></th>
@@ -36,19 +35,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="zayavka in m">
-							<td>{{ item.Дата }}</td>
-							<td>{{ item.Алексей }}</td>
-							<td>{{ item.Петр }}</td>
-							<td>{{ item.Самвел }}</td>					
+						<tr v-for="zayavka in item | disp master">
+							<td>{{ zayavka.Заявка }}</td>
+							<td>{{ zayavka.Статус }}</td>
+							<td>{{ zayavka.Сумма }}</td>				
 						</tr>
 					</tbody>
-				</table> -->
-				{{ item.Дата }}
-			</td>
-			<td>{{ item.Алексей }}</td>
-			<td>{{ item.Петр }}</td>
-			<td>{{ item.Самвел }}</td>					
+				</table>
+			</td>							
 		</tr>
 	</tbody>
 </table>
@@ -103,6 +97,10 @@ new Vue ({
 	    	});	    	
 	        return dataJson;
 		})(),
+
+		masters : [
+			"Алексей", "Петр", "Самвел"
+		],
 
 		m : [
 				{
@@ -164,12 +162,14 @@ new Vue ({
 		},
 
 	filters	: {
-		disp : function() {
+		disp : function(arr, master) {
 			// console.log(this.m);
 			// console.log(this.m.length);
-			var name = 'Алексей', name1 = 'Заявка';
-			console.log(this.m[0][name][0][name1]);
-			console.log(this.m[0].Алексей.length);
+			// var name = 'Алексей', name1 = 'Заявка';
+			// console.log(this.m[0][name][0][name1]);
+			// console.log(this.m[0].Алексей.length);
+			console.log(arr);
+			console.log(master);
 		}
 	}
 	
