@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="jquery-ui.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+	<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css">	 -->	
+	<!-- <script src="jquery-ui.min.js"></script> -->
+	<title>Test</title>
+</head>
+<body id="demo" class="container">
+
+<h3>Сводный отчет по мастеру</h3>
+
+<div class="row">
+	<div class="col-xs-3">
+    <select v-model="name" debounce="500" class="form-control bg-success">  
+        <option value="Алексей" selected>Алексей</option>
+        <option value="Александр">Александр</option>        
+        <option value="Виталик">Виталик</option>
+        <option value="Влад">Влад</option>
+        <option value="Евгений">Евгений</option>
+        <option value="Кирилл">Кирилл</option>				
+        <option value="Олег">Олег</option>
+        <option value="Петр">Петр</option>        
+		<option value="Роман">Роман</option>				
+		<option value="Самвел">Самвел</option>		
+      </select>
+	</div>
+
+<!-- 	<div class='input-group date col-xs-2' id='datetimepicker2'>
+	    <input class="form-control" v-model="date1" debounce="500" />
+	    <span class="input-group-addon">
+	    	<span class="glyphicon glyphicon-calendar"></span>
+	    </span>
+	</div>
+ -->
+	<script type="text/javascript">
+	    // $(function () {
+	    //     $('#datetimepicker2').datetimepicker({
+	    //         locale: 'ru'
+	    //     });
+	    // });
+	</script>
+
+ <div class="col-xs-3">
+    <input v-model="date1" debounce="500" class="form-control" value="2016-03-20" id="d1">
+ </div>
+
+
+ <div class="col-xs-3">
+ 	<input v-model="date2" debounce="500" class="form-control" value="2016-04-04" id="d2">
+ </div>
+
+ <div class="col-xs-3">
+   	<a href="upload" class="pull-right" target="_blank">Закачать новые таблицы</a>
+</div>
+</div>
+
+<h4>&nbsp;</h4>
+<h4>Заявки с <mark>&nbsp;{{date1 | fixDate1}}&nbsp;</mark> по <mark>&nbsp;{{date2 | fixDate1}}&nbsp;</mark> для мастера <mark>&nbsp;{{name}}&nbsp;</mark></h4>
+
+
+<table class="table table-striped table-condensed table-hover table-bordered">
+	<thead>
+		<tr class="info">
+			<!-- <th><a href="#">N</a></th> -->
+			<th><a href="#">Дата</a></th>
+			<th><a href="#">Заявка</a></th>
+			<th><a href="#">Канал</a></th>
+			<th><a href="#">Мастер</a></th>
+			<th><a href="#">Статус</a></th>
+			<th><a href="#">Вид работ</a></th>						
+			<th class="text-right"><a href="#">%</a></th>
+			<th class="text-right"><a href="#">Сумма, руб</a></th>			
+			<th class="text-right"><a href="#">СМ, руб</a></th>			
+			<th class="text-right"><a href="#">СК, руб</a></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-for="item in j1 | betweenDates date1 date2 name |  orderBy 'date'">
+			<!-- <td>{{ item.N }}</td> -->
+			<td>{{ item.Дата | fixDate }}</td>
+			<td>{{ item.Заявка }}</td>
+			<td>{{ item.Канал }}</td>
+			<td>{{ item.Мастер }}</td>
+			<td>{{ item.Статус }}</td>
+			<td>{{ item.Вид }}</td>						
+			<td class="text-right">{{ item.Мотивация }}</td>
+			<td class="text-right">{{ item.Сумма | currency ''}}</td>
+			<td class="text-right">{{ item.СМ | currency ''}}</td>
+			<td class="text-right">{{ item.СК | currency '' }}</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<div class="row">
+	<div class="col-xs-4">
+		<h4>&nbsp;</h4>
+		<!-- <h4>Статистика мастера за период с <mark>&nbsp;{{date1 | fixDate1}}&nbsp;</mark> по <mark>&nbsp;{{date2 | fixDate1}}&nbsp;</mark> по статусам заказов</h4> -->
+	
+		<h4>Отчет по статусам</h4>
+
+		<table class="table table-striped table-condensed table-hover table-bordered">
+			<thead>
+				<tr class="info">
+					<th><a href="#">Статус</a></th>
+					<th class="text-right"><a href="#">Кол-во</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in m2">
+					<td>{{ item.Категория }}</td>
+					<td class="text-right">{{ item.Количество }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="col-xs-4">
+
+		<h4>&nbsp;</h4>
+		<!-- <h4>Доход мастера за период с <mark>&nbsp;{{date1 | fixDate1}}&nbsp;</mark> по <mark>&nbsp;{{date2 | fixDate1}}&nbsp;</mark> в разрезе видов работ</h4> -->
+
+		<h4>Доход мастера в разрезе видов</h4>
+
+		<table class="table table-striped table-condensed table-hover table-bordered">
+			<thead>
+				<tr class="info">
+					<th><a href="#">Вид работ</a></th>
+					<th class="text-right"><a href="#">Сумма</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in m3">
+					<td>{{ item.Категория }}</td>
+					<td class="text-right">{{ item.Сумма  | currency '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="col-xs-4">
+		<h4>&nbsp;</h4>
+		<h4>Количество прогулов и выходных</h4>
+
+		<table class="table table-striped table-condensed table-hover table-bordered">
+			<thead>
+				<tr class="info">
+					<th><a href="#">Категория</a></th>
+					<th class="text-right"><a href="#">Кол-во</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in m4">
+					<td>{{ item.Категория }}</td>
+					<td class="text-right">{{ item.Количество }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+<script src="moment-with-locales.min.js"></script>
+<!-- <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
+
+<script>
+
+// jQuery UI Datepicker init
+// $('#d1').datepicker({dateFormat: 'dd-mm-yy'});
+// $('#d2').datepicker({dateFormat: 'dd-mm-yy'});
+
+new Vue ({
+	el: "#demo",
+	data : {
+		j1 : (function () {
+	    	var dataJson = null;
+	    	$.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': '1.json',
+	        'dataType': "json",
+	        'success': function (json) {
+	    	    dataJson = json;
+    		}
+	    	});
+	        return dataJson;        
+		})(),
+
+		j2 : (function () {
+	    	var dataJson = null;
+	    	$.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': '2.json',
+	        'dataType': "json",
+	        'success': function (json) {
+	    	    dataJson = json;
+    		}
+	    	});
+	        return dataJson;
+		})(),
+
+		// m1 : j1,
+
+		m2 : [
+			{
+				"Категория" : "Выполнено",
+				"Количество" : 0
+			},
+			{
+				"Категория" : "Не выполнено",
+				"Количество" : 0
+			},
+			{
+				"Категория" : "Выполняется",
+				"Количество" : 0
+			},
+			{
+				"Категория" : "Всего",
+				"Количество" : 0
+			}
+		],
+
+		m3 : [
+			{
+				"Категория" : "Электрика",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Мелкобытовая",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Отделочные работы",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Сантехника",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Двери",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Сборка мебели",
+				"Сумма" : 0
+			},
+			{
+				"Категория" : "Итого",
+				"Сумма" : 0
+			}
+		],
+		m4 : [
+			{
+				"Категория" : "Выходных за отчетный период",
+				"Количество" : 0
+			},
+			{
+				"Категория" : "Прогулов за все время",
+				"Количество" : 0
+			},
+		]
+	},
+
+	filters: {
+	fixDate: function(date) {
+		return moment(date).locale('ru').format("DD-MMM-YY dd");
+	},
+	fixDate1: function(date) {
+		return moment(date).locale('ru').format("DD-MMM-YYYY");
+	},
+	betweenDates: function(arr, date1, date2, name) {
+		console.log(date1);
+
+		var res = []; 
+		var c = []; for (var i = 0; i < 4; i++) { c[i] = 0 };
+		var v = []; for (var i = 0; i < 7; i++) { v[i] = 0 };
+	    var item; 
+	    // запускаем цикл по строкам массива
+	    for (var i = 0, l = arr.length; i < l; i++) {
+	      	item = arr[i];	      
+	      	// проверяем значения конкретных полей с переданными параметрами
+		    if (item.Дата >= date1 && item.Дата <= date2 && item.Мастер === name) {
+		    	switch (item.Статус) {
+		    		case 'Выполнено': c[0]++; break;
+		    		case 'Не выполнено': c[1]++; break;
+		    		case 'Выполняется': c[2]++; 		
+		    	}		    
+		    	switch (item.Вид) {
+		    		case 'Электрика': v[0]+=Number(item.СМ); break;
+		    		case 'Мелкобытовая': v[1]+=Number(item.СМ); break;
+		    		case 'Отделочные работы': v[2]+=Number(item.СМ); break;		
+		    		case 'Сантехника': v[3]+=Number(item.СМ); break;
+		    		case 'Двери': v[4]+=Number(item.СМ); break;
+		    		case 'Сборка мебели': v[5]+=Number(item.СМ); 		
+		    	}		    
+
+		    	res.push(item)
+		  	}
+	    }
+
+	    // console.log(this);
+	    for (var i = 0; i < 4; i++) { 
+	  		this.m2[i].Количество = c[i];
+	    };  this.m2[3].Количество = c[0]+c[1]+c[2];
+
+	    // console.log(v);
+		for (var i = 0; i < 7; i++) { 
+	  		this.m3[i].Сумма = v[i];
+	    };  this.m3[6].Сумма = v[0]+v[1]+v[2]+v[3]+v[4]+v[5];
+
+
+	    var k=0, n = 0;
+
+	    for (var i = 0, l = this.j2.length; i < l; i++) {
+	      	item = this.j2[i];	      		      	
+		    if (item.Дата>= date1 && item.Дата <= date2 && item[name] === 'Выходной') { k++; };
+		    if (item[name] === 'Прогул') {n++};
+		}
+
+		this.m4[0].Количество = k;
+		this.m4[1].Количество = n;
+
+	    return res;
+	}
+	},
+	methods: {
+		updateAllForArrays: function(name,date1,date2){
+			// console.log('Got:' + name + ' ' + date1 + ' ' + date2);
+		}
+	}
+})
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Отчет 2</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="jquery-ui.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+</head>
+<body id="demo">
+
+<ul v-for="item in j3">
+	<li>{{ $index }} {{ item.Мастер }}</li>		
+</ul>
+
+
+<script src="moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
+<script>
+new Vue ({
+	el: "#demo",
+	data : {
+		j1 : (function () {
+	    	var dataJson = null;
+	    	$.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': '1.json',
+	        'dataType': "json",
+	        'success': function (json) {
+	    	    dataJson = json;
+	    	    console.log(json);
+    		}
+	    	});
+	        return dataJson;        
+		})(),
+
+		j2 : (function () {
+	    	var dataJson = null;
+	    	$.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': '2.json',
+	        'dataType': "json",
+	        'success': function (json) {
+	    	    dataJson = json;
+	    	    console.log(json);
+    		}
+	    	});
+	        return dataJson;
+		})(),
+
+		j3 : (function () {
+	    	var dataJson = null;
+	    	$.ajax({
+	        'async': false,
+	        'global': false,
+	        'url': '3.json',
+	        'dataType': "json",
+	        'success': function (json) {
+	    	    dataJson = json;
+	    	    console.log(json);
+    		}
+	    	});	    	
+	        return dataJson;
+		})(),
+
+		m2 : [],
+
+		m1 : function () {
+			var m = [];
+			console.log(this);
+			for (var i = 0, l = this.j3.length; i < l; i++) { 
+				item = this.j3[i];
+				m[i] = item.Мастер 
+			};
+			console.log(m);
+			return m;
+		}()
+	}
+	
+})
+
+
+// console.log(Vue);
+Vue.config.devtools = true;
+Vue.config.debug = true;
+
+</script>
+</body>
+</html>
