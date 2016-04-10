@@ -98,12 +98,6 @@ var vm = new Vue ({
 	        return dataJson;
 		})(),
 
-		// попытка иницализации массива путем вызова функции на вход которыой поодаётся другой массив
-		// test : (function (j3) {
-		// console.log(j3); // ошибка undefined
-		// return j3;
-		// })(),
-
 		masters : [], // список мастеров
 
 		m : [] // основной массив
@@ -138,7 +132,6 @@ var vm = new Vue ({
 
 vm.initArrays();
 
-// console.log(Vue);
 Vue.config.devtools = true;
 Vue.config.debug = true;
 
