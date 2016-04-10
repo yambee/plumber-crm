@@ -104,12 +104,13 @@ var vm = new Vue ({
 	},
 
 	methods : { 
-		initArrays : function() {			
-			for (var i = 0, l = this.j3.length; i < l; i++) {this.masters.push(this.j3[i].Мастер)};
-			console.log(this.masters);
+		initArrays : function() {
+			// считываем список мастеров из хэш-таблицы j3 (справочник)		
+			for (var i = 0, l = this.j3.length; i < l; i++) {this.masters.push(this.j3[i].Мастер)};		
 
-			this.m = [
-				// находим самую раннюю дату в таблице j1
+			// находим самую раннюю дату в таблице j1
+			var firstDate = moment("01 01 2015", "DD MMM YYYY").locale('ru').format("DD-MMM-YYYY");
+			console.log(firstDate);
 
 				// начинаем цикл по датам с этой даты до сегодня
 
@@ -119,7 +120,7 @@ var vm = new Vue ({
 
 				// переходим к следующей дате
 
-			]
+			this.m = []
 		}
 	}
 	
