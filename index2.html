@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Отчет 2</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="style.css">
+	<!-- <link rel="stylesheet" href="style.css"> -->
 	<!-- <link rel="stylesheet" href="jquery-ui.min.css"> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 </head>
@@ -112,9 +112,19 @@ var vm = new Vue ({
 			var firstDate = moment("01 01 2015", "DD MMM YYYY").locale('ru').format("DD-MMM-YYYY");
 			console.log(firstDate);
 
+			var Line = { "Дата" : "" };
+			console.log(Line);
+
+			for (var i = 0, l = this.masters.length; i < l; i++) {
+				Line[this.masters] = "";
+			};		
+			console.log(Line.length);
+
+			// тут явно нужен какой-то констуктор класса объекта
+
 				// начинаем цикл по датам с этой даты до сегодня
 
-					// формируем комплексный объект-строку большой таблицы
+					// формируем комплексный объект-строку большой таблицы (здесь предположение по поводу использования конструктора прототипа объекта)
 
 					// внутри этого объекта формируем массив вложенных объектов-строк малой таблицы
 
