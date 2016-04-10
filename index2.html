@@ -98,9 +98,13 @@ new Vue ({
 	        return dataJson;
 		})(),
 
-		masters : [
-			"Алексей", "Петр", "Самвел"
-		],
+		// попытка иницализации массива путем вызова функции на вход которыой поодаётся другой массив
+		// test : (function (j3) {
+		// 	console.log(j3);
+		// 	return j3;
+		// })(),
+
+		masters : ["Алексей", "Петр", "Самвел"],
 
 		m : [
 				{
@@ -162,7 +166,14 @@ new Vue ({
 		},
 
 	filters	: {
-		disp : function(obj, master) { return obj[master] }
+		disp : function(obj, master) { console.log('фильтр запущен'); return obj[master] }
+	},
+
+	methods : { 
+		initArrays : function(j1, j2, j3) {
+
+
+		}
 	}
 	
 })
