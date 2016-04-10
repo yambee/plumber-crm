@@ -100,8 +100,10 @@ var vm = new Vue ({
 		},
 
 	filters	: {
-		disp : function(obj, master) { return obj[master] }
+		disp : function(obj, master) { return obj[master] },
+		fixDate1: function(date) { return moment(date).locale('ru').format("DD-MMM-YYYY") }
 	},
+
 
 	methods : { 
 		initArrays : function() {
@@ -109,17 +111,30 @@ var vm = new Vue ({
 			for (var i = 0, l = this.j3.length; i < l; i++) {this.masters.push(this.j3[i].Мастер)};		
 
 			// находим самую раннюю дату в таблице j1
-			var firstDate = moment("01 01 2015", "DD MMM YYYY").locale('ru').format("DD-MMM-YYYY");
-			console.log(firstDate);
+			// var iDate = moment("25 01 2016", "DD MM YYYY").locale('ru').format("DD-MMM-YYYY");
+			var iDate = "2016-01-25";
+			var Line = {};
+			Line.Дата = iDate;
 
-			var Line = { "Дата" : "" };
-			console.log(Line);
+			for (var i = 0; i < this.masters.length; i++) {
+				var sum = 0;
+				// цикл по всей j1 в поисках такой же даты и такого же мастера
+				for (var j = 0; j < this.j1.length; j++) {
+					
+					var jDate = this.j1[j].Дата;
+					// console.log(jDate);
+					var jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
+					var jMaster = this.j1[j].Мастер;
+					var iMaster = this.masters[i];
+					var jSum = this.j1[j].Сумма;
 
-			for (var i = 0, l = this.masters.length; i < l; i++) {
-				Line[this.masters] = "";
-			};		
-			console.log(Line.length);
-
+					if (jDate === iDate && jMaster === iMaster) {sum += Number(jSum)};
+					Line[iMaster] = sum;
+				};					
+				console.log(Line);
+				console.log(iDate, iMaster, jDate, jMaster);
+			}
+			this.m.push(Line);
 			// тут явно нужен какой-то констуктор класса объекта
 
 				// начинаем цикл по датам с этой даты до сегодня
@@ -130,7 +145,7 @@ var vm = new Vue ({
 
 				// переходим к следующей дате
 
-			this.m = []
+			// this.m = []
 		}
 	}
 	
