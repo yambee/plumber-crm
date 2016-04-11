@@ -10,6 +10,10 @@
 </head>
 <body id="demo">
 
+	<h3>Сводный отчет по всем мастерам <span id="curDate"></span></h3>
+    <!-- <input v-model="date1" debounce="500" class="form-control" value="2016-01-15" id="d1"> -->
+    <!-- <input v-model="date2" debounce="500" class="form-control" value="2016-01-26" id="d2"> -->
+
 <table class="table table-striped table-condensed table-hover table-bordered">
 	<thead>
 		<tr class="info">
@@ -20,7 +24,24 @@
 	<tbody>
 		<tr v-for="item in m">
 			<td>{{item.Дата}}</td>
-			<td v-for="master in masters | orderBy 'master'">{{item[master]}}</td>							
+			<td v-for="master in masters | orderBy 'master'">
+				<table class="table table-striped table-condensed table-hover table-bordered">
+					<thead>
+						<tr class="info">
+							<th><a href="#">Заявка</a></th>
+							<th><a href="#">Статус</a></th>
+							<th><a href="#">Сумма</a></th>							
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="zayavka in item | disp master">
+							<td>{{ zayavka.Заявка }}</td>
+							<td>{{ zayavka.Статус }}</td>
+							<td>{{ zayavka.Сумма }}</td>				
+						</tr>
+					</tbody>
+				</table>
+			</td>	
 		</tr>
 	</tbody>
 </table>
@@ -78,7 +99,9 @@ var vm = new Vue ({
 
 		masters : [], // список мастеров
 
-		m : [] // основной массив
+		m : [], // основной массив
+
+		iDate : "" 
 				
 		},
 
@@ -89,7 +112,7 @@ var vm = new Vue ({
 
 
 	methods : { 
-		initArrays : function() {
+		initArrays : function(date1,date2) {
 
 			var Line = {};
 			Line.Дата = '';
@@ -104,8 +127,11 @@ var vm = new Vue ({
 			// находим самую раннюю дату в таблице j1
 			// var iDate = moment("25 01 2016", "DD MM YYYY").locale('ru').format("DD-MMM-YYYY");
 
-			var startDate = moment("2016-01-15").locale('ru').format("YYYY-MM-DD");
-			var endDate = moment("2016-01-25").locale('ru').format("YYYY-MM-DD");
+			var startDate = date1;
+			var endDate = date2;
+
+			var startDate = moment("2016-04-01").locale('ru').format("YYYY-MM-DD");			
+			var endDate = moment("2016-04-11").locale('ru').format("YYYY-MM-DD");
 
 			// console.log(moment(startDate).add(1, 'days').locale('ru').format("YYYY-MM-DD"));
 
@@ -113,6 +139,7 @@ var vm = new Vue ({
 
 			for (var iDate = startDate; iDate < endDate; iDate = moment(iDate).add(1, 'days').locale('ru').format("YYYY-MM-DD") ){
 				// console.log("iDate: " + iDate, "endDate: " + endDate);
+				// $('#curDate').html('sddfdf');
 				newLine = Object.create(Line);
 				// console.log(newLine);				
 				newLine.Дата = iDate;
