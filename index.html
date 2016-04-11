@@ -271,11 +271,11 @@ new Vue ({
 
 	filters: {
 	fixDate: function(date) {
-		// return moment(date).locale('ru').format("DD-MMM-YY dd");
-		return date.toLocaleString();
+		return moment(date).locale('ru').format("DD-MMM-YY dd");		
+		
 	},
 	fixDate1: function(date) {
-		return moment(date).locale('ru').format("DD-MMM-YYYY");
+		return moment(date).locale('ru').format("DD-MMM-YYYY");		
 	},
 	betweenDates: function(arr, date1, date2, name) {
 		console.log(date1);
