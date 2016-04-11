@@ -19,7 +19,7 @@
 	</thead>
 	<tbody>
 		<tr v-for="item in m">
-			<td>{{item.Дата | fixDate1}}</td>
+			<td>{{item.Дата}}</td>
 			<td v-for="master in masters | orderBy 'master'">{{item[master]}}</td>							
 		</tr>
 	</tbody>
@@ -104,7 +104,7 @@ var vm = new Vue ({
 			// находим самую раннюю дату в таблице j1
 			// var iDate = moment("25 01 2016", "DD MM YYYY").locale('ru').format("DD-MMM-YYYY");
 
-			var startDate = moment("2016-01-01").locale('ru').format("YYYY-MM-DD");
+			var startDate = moment("2016-03-01").locale('ru').format("YYYY-MM-DD");
 			var endDate = moment("2016-04-10").locale('ru').format("YYYY-MM-DD");
 
 			// console.log(moment(startDate).add(1, 'days').locale('ru').format("YYYY-MM-DD"));
@@ -121,12 +121,12 @@ var vm = new Vue ({
 					var sum = 0;
 					// цикл по всей j1 в поисках такой же даты и такого же мастера
 					for (var j = 0; j < this.j1.length; j++) {
-						var jDate = this.j1[j].Дата;
+						jDate = this.j1[j].Дата;
 						// console.log(jDate);
-						var jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
-						var jMaster = this.j1[j].Мастер;
-						var iMaster = this.masters[i];
-						var jSum = this.j1[j].Сумма;
+						jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
+						jMaster = this.j1[j].Мастер;
+						iMaster = this.masters[i];
+						jSum = this.j1[j].Сумма;
 
 						if (jDate === iDate && jMaster === iMaster) {sum += Number(jSum)};
 						newLine[iMaster] = sum;

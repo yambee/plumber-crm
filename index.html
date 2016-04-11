@@ -271,7 +271,8 @@ new Vue ({
 
 	filters: {
 	fixDate: function(date) {
-		return moment(date).locale('ru').format("DD-MMM-YY dd");
+		// return moment(date).locale('ru').format("DD-MMM-YY dd");
+		return date.toLocaleString();
 	},
 	fixDate1: function(date) {
 		return moment(date).locale('ru').format("DD-MMM-YYYY");
