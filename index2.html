@@ -8,7 +8,7 @@
 	<!-- <link rel="stylesheet" href="jquery-ui.min.css"> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
 </head>
-<body id="demo" class="container">
+<body id="demo">
 
 <table class="table table-striped table-condensed table-hover table-bordered">
 	<thead>
@@ -104,8 +104,8 @@ var vm = new Vue ({
 			// находим самую раннюю дату в таблице j1
 			// var iDate = moment("25 01 2016", "DD MM YYYY").locale('ru').format("DD-MMM-YYYY");
 
-			var startDate = moment("2016-03-01").locale('ru').format("YYYY-MM-DD");
-			var endDate = moment("2016-04-10").locale('ru').format("YYYY-MM-DD");
+			var startDate = moment("2016-01-15").locale('ru').format("YYYY-MM-DD");
+			var endDate = moment("2016-01-25").locale('ru').format("YYYY-MM-DD");
 
 			// console.log(moment(startDate).add(1, 'days').locale('ru').format("YYYY-MM-DD"));
 
@@ -119,8 +119,11 @@ var vm = new Vue ({
 
 				for (var i = 0; i < this.masters.length; i++) {
 					var sum = 0;
+					var mm = [];
+					var MiniLine = {}; // прототип маленькой строки (Заявка + Статус + Сумма)
 					// цикл по всей j1 в поисках такой же даты и такого же мастера
 					for (var j = 0; j < this.j1.length; j++) {
+						newMiniLine = Object.create(MiniLine); // новый экземпляр строки таблицы по образу объекта MiniLine
 						jDate = this.j1[j].Дата;
 						// console.log(jDate);
 						jDate = moment(jDate).locale('ru').format("YYYY-MM-DD");		
@@ -128,10 +131,20 @@ var vm = new Vue ({
 						iMaster = this.masters[i];
 						jSum = this.j1[j].Сумма;
 
-						if (jDate === iDate && jMaster === iMaster) {sum += Number(jSum)};
+						if (jDate === iDate && jMaster === iMaster) {
+							sum += Number(jSum)
+							newMiniLine.Заявка = this.j1[j].Заявка;
+							newMiniLine.Статус = this.j1[j].Статус;
+							newMiniLine.Сумма = this.j1[j].Сумма;
+						}
+
 						newLine[iMaster] = sum;
-					};					
-					// console.log(newLine);
+						if (newMiniLine.Заявка) {mm.push(newMiniLine)};
+					}
+
+					newLine[this.masters[i]] = mm;
+
+					console.log(newLine);
 					// console.log("iDate: " + iDate, iMaster, "jDate: " + jDate, jMaster);
 				}
 				this.m.push(newLine);
