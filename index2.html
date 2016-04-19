@@ -136,11 +136,11 @@ var vm = new Vue ({
 			// console.log(moment(startDate).add(1, 'days').locale('ru').format("YYYY-MM-DD"));
 
 			// var iDate = startDate;
-
+			console.time("test");
 			for (var iDate = startDate; iDate < endDate; iDate = moment(iDate).add(1, 'days').locale('ru').format("YYYY-MM-DD") ){
 				// console.log("iDate: " + iDate, "endDate: " + endDate);
 				// $('#curDate').html('sddfdf');
-				newLine = Object.create(Line);
+				var newLine = {};
 				// console.log(newLine);				
 				newLine.Дата = iDate;
 
@@ -149,7 +149,7 @@ var vm = new Vue ({
 					var mm = [];
 					var MiniLine = {}; // прототип маленькой строки (Заявка + Статус + Сумма)
 					// цикл по всей j1 в поисках такой же даты и такого же мастера
-					for (var j = 800; j < this.j1.length; j++) {
+					for (var j = 0; j < this.j1.length; j++) {
 						newMiniLine = Object.create(MiniLine); // новый экземпляр строки таблицы по образу объекта MiniLine
 						jDate = this.j1[j].Дата;
 						// console.log(jDate);
@@ -171,13 +171,14 @@ var vm = new Vue ({
 
 					newLine[this.masters[i]] = mm;
 
-					console.log(newLine);
+					// console.log(newLine);
 					// console.log("iDate: " + iDate, iMaster, "jDate: " + jDate, jMaster);
 				}
 				this.m.push(newLine);
 				// console.log(this.m);				
 			}
 
+			console.timeEnd("test");
 			// тут явно нужен какой-то констуктор класса объекта
 
 				// начинаем цикл по датам с этой даты до сегодня
